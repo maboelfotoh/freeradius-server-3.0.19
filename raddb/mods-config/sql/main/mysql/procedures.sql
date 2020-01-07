@@ -44,6 +44,7 @@ begin
 	SELECT id, username, attribute, value, op \
 	FROM radcheck \
 	WHERE radcheck.username = username \
+	AND expdate >= NOW()
 	ORDER BY id;
 end //
 create procedure authorizeReply(username varchar(64))
@@ -357,7 +358,7 @@ interim-update
 #  update. This can be used to find stale sessions.
 #
 */
-create procedure sessionUpdate(eventTimestamp int(12) unsigned,
+create procedure interimUpdateSession(eventTimestamp int(12) unsigned,
 				framedipaddress varchar(15),
 				framedipv6address varchar(45),
 				framedipv6prefix varchar(45),
@@ -391,7 +392,7 @@ end //
 #  the values provided in the update to create a new session.
 #
 */
-create procedure interimUpdateNewSession(
+create procedure interimUpdateSessionNew(
 				acctsessionid varchar(64),
 				acctuniquesessionid varchar(32),
 				username varchar(64),
@@ -466,7 +467,7 @@ end //
 #  enabled.
 #
 */
-create procedure interimUpdate(acctsessionid varchar(64),
+create procedure interimUpdateSessionSql(acctsessionid varchar(64),
 				acctuniquesessionid varchar(32),
 				acctauthentic varchar(32),
 				connectinfo varchar(50),
